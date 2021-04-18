@@ -9,6 +9,8 @@ import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.time.format.FormatStyle;
 import java.util.*;
+import java.util.function.Predicate;
+import java.util.stream.Collectors;
 
 public class ProductManager {
 
@@ -57,43 +59,45 @@ public class ProductManager {
         List<Review> reviews = products.get(product);
         products.remove(product, reviews);
         reviews.add(new Review(rating, comments));
-        int sum = 0;
-        for (Review review : reviews) {
-            sum += review.getRating().ordinal();
-        }
-        product = product.applyRating(Rateable.convert(Math.round((float) sum / reviews.size())));
+        product = product.applyRating(
+                Rateable.convert(
+                        (int) Math.round(
+                                reviews.stream()
+                                        .mapToInt(r -> r.getRating().ordinal())
+                                        .average()
+                                        .orElse(0)
+                        )
+                )
+        );
         products.put(product, reviews);
         return product;
     }
 
     public void printProductReport(Product product) {
         List<Review> reviews = products.get(product);
+        Collections.sort(reviews);
         StringBuilder txt = new StringBuilder();
         txt.append(formatter.formatProducts(product));
         txt.append("\n");
-        Collections.sort(reviews);
-        for (Review review : reviews) {
-            if (review == null) {
-                break;
-            }
-            txt.append(formatter.formatReviews(review));
-            txt.append("\n");
-        }
+
         if (reviews.isEmpty()) {
-            txt.append(formatter.getText("no.reviews"));
-            txt.append("\n");
+            txt.append(formatter.getText("no.reviews") + "\n");
+        } else {
+            txt.append(reviews.stream()
+                    .map(r -> formatter.formatReviews(r) + "\n")
+                    .collect(Collectors.joining()));
         }
+
         System.out.println(txt);
     }
 
-    public void printProducts(Comparator<Product> sorter) {
-        List<Product> productsList = new ArrayList<>(products.keySet());
-        productsList.sort(sorter);
+    public void printProducts(Predicate<Product> filter, Comparator<Product> sorter) {
         StringBuilder txt = new StringBuilder();
-        for (Product product : productsList) {
-            txt.append(formatter.formatProducts(product));
-            txt.append("\n");
-        }
+        products.keySet()
+                .stream()
+                .sorted(sorter)
+                .filter(filter)
+                .forEach(p->txt.append(formatter.formatProducts(p) + "\n"));
         System.out.println(txt);
     }
 
@@ -102,15 +106,13 @@ public class ProductManager {
     }
 
     public Product findProductById(int id) {
-        Product result = null;
-        for (Product product : products.keySet()) {
-            if (product.getId() == id) {
-                result = product;
-                break;
-            }
-        }
-        return result;
+        return products.keySet()
+                .stream()
+                .filter(p -> p.getId() == id)
+                .findFirst()
+                .orElseGet(() -> null);
     }
+
 
     private static class ResourceFormatter {
 

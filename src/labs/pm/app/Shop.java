@@ -9,6 +9,7 @@ import java.util.Arrays;
 import java.util.Comparator;
 import java.util.List;
 import java.util.Locale;
+import java.util.function.Predicate;
 
 /**
  * {@code Shop} represents an application that manages Products
@@ -31,18 +32,19 @@ public class Shop {
         //pm.printProductReport(100);
 
         pm.createProduct(101, "Coffee", BigDecimal.valueOf(7.90), Rating.NOT_RATED);
-        //pm.printProductReport(101);
         pm.reviewProduct(101, Rating.THREE_STAR, "Nice hot cup of Coffee");
         pm.reviewProduct(101, Rating.FOUR_STAR, "Fine Coffee");
-        pm.reviewProduct(101, Rating.TWO_STAR , "Good Coffee");
-        //pm.printProductReport(101);
+        pm.reviewProduct(101, Rating.TWO_STAR, "Good Coffee");
+         pm.printProductReport(101);
+        Predicate<Product> filter = (p -> p.getPrice().floatValue() > 2);
+        pm.printProducts(filter, (p1, p2) -> p2.getRating().ordinal() - p1.getRating().ordinal());
 
-        Comparator<Product> ratingSorter  = (p1, p2) -> p2.getRating().ordinal() - p1.getRating().ordinal();
-        Comparator<Product> priceSorter = (p1, p2) -> p2.getPrice().compareTo(p1.getPrice());
-        pm.printProducts(ratingSorter);
-        pm.printProducts(priceSorter);
-        pm.printProducts(ratingSorter.thenComparing(priceSorter));
-        pm.printProducts(ratingSorter.thenComparing(priceSorter).reversed());
+        //Comparator<Product> ratingSorter  = (p1, p2) -> p2.getRating().ordinal() - p1.getRating().ordinal();
+        //Comparator<Product> priceSorter = (p1, p2) -> p2.getPrice().compareTo(p1.getPrice());
+        //pm.printProducts(ratingSorter);
+        //pm.printProducts(priceSorter);
+        //pm.printProducts(ratingSorter.thenComparing(priceSorter));
+        //pm.printProducts(ratingSorter.thenComparing(priceSorter).reversed());
 
 
         /*

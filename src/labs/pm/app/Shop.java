@@ -35,9 +35,17 @@ public class Shop {
         pm.reviewProduct(101, Rating.THREE_STAR, "Nice hot cup of Coffee");
         pm.reviewProduct(101, Rating.FOUR_STAR, "Fine Coffee");
         pm.reviewProduct(101, Rating.TWO_STAR, "Good Coffee");
+        pm.reviewProduct(101, Rating.THREE_STAR, "Good Coffee");
+        pm.reviewProduct(101, Rating.FIVE_STAR, "Coffee is great");
+        pm.reviewProduct(101, Rating.ONE_STAR, "God Coffee");
+        pm.reviewProduct(101, Rating.TWO_STAR, "Two stars coffee");
+        pm.reviewProduct(101, Rating.NOT_RATED, "I didn't likethis coffee");
+        pm.reviewProduct(101, Rating.ONE_STAR, "Can be better");
+        pm.reviewProduct(101, Rating.FOUR_STAR, "Amazing Coffee");
          pm.printProductReport(101);
         Predicate<Product> filter = (p -> p.getPrice().floatValue() > 2);
         pm.printProducts(filter, (p1, p2) -> p2.getRating().ordinal() - p1.getRating().ordinal());
+        pm.getDiscounts().forEach((rating, discount) -> System.out.println(rating+"\t"+discount));
 
         //Comparator<Product> ratingSorter  = (p1, p2) -> p2.getRating().ordinal() - p1.getRating().ordinal();
         //Comparator<Product> priceSorter = (p1, p2) -> p2.getPrice().compareTo(p1.getPrice());

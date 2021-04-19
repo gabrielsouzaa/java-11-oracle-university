@@ -25,7 +25,8 @@ public class Shop {
         ProductManager pm = new ProductManager(Locale.getDefault());
 
         pm.createProduct(100, "Bread", BigDecimal.valueOf(1.99), Rating.NOT_RATED);
-        //pm.printProductReport(100);
+        //pm.printProductReport(99);
+        //pm.reviewProduct(99, Rating.FOUR_STAR, "product not exists");
         pm.reviewProduct(100, Rating.FIVE_STAR, "Nice hot cup of tea");
         pm.reviewProduct(100, Rating.FOUR_STAR, "Fine Tea");
         pm.reviewProduct(100, Rating.THREE_STAR, "Good Tea");
@@ -39,7 +40,7 @@ public class Shop {
         pm.reviewProduct(101, Rating.FIVE_STAR, "Coffee is great");
         pm.reviewProduct(101, Rating.ONE_STAR, "God Coffee");
         pm.reviewProduct(101, Rating.TWO_STAR, "Two stars coffee");
-        pm.reviewProduct(101, Rating.NOT_RATED, "I didn't likethis coffee");
+        pm.reviewProduct(101, Rating.NOT_RATED, "I didn't like this coffee");
         pm.reviewProduct(101, Rating.ONE_STAR, "Can be better");
         pm.reviewProduct(101, Rating.FOUR_STAR, "Amazing Coffee");
          pm.printProductReport(101);

@@ -24,13 +24,19 @@ public class Shop {
 
         ProductManager pm = new ProductManager(Locale.getDefault());
 
-        pm.createProduct(100, "Bread", BigDecimal.valueOf(1.99), Rating.NOT_RATED);
+        //pm.createProduct(100, "Tea", BigDecimal.valueOf(1.99), Rating.NOT_RATED);
+        pm.parseProduct("D,100,Tea,1.99,5,2021-04-20");
+        pm.parseProduct("F,103,Cake,1.99,5,2021-04-45");
+        pm.printProductReport(100);
+        //pm.reviewProduct(100, Rating.FIVE_STAR, "Nice hot cup of tea");
+        //pm.reviewProduct(100, Rating.FOUR_STAR, "Fine Tea");
+        //pm.reviewProduct(100, Rating.THREE_STAR, "Good Tea");
+        pm.printProductReport(100);
+
         //pm.printProductReport(99);
         //pm.reviewProduct(99, Rating.FOUR_STAR, "product not exists");
-        pm.reviewProduct(100, Rating.FIVE_STAR, "Nice hot cup of tea");
-        pm.reviewProduct(100, Rating.FOUR_STAR, "Fine Tea");
-        pm.reviewProduct(100, Rating.THREE_STAR, "Good Tea");
-        //pm.printProductReport(100);
+        pm.parseReview("100,4,Tea is good");
+
 
         pm.createProduct(101, "Coffee", BigDecimal.valueOf(7.90), Rating.NOT_RATED);
         pm.reviewProduct(101, Rating.THREE_STAR, "Nice hot cup of Coffee");
